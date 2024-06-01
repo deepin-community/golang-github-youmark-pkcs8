@@ -1,15 +1,40 @@
-Source: template-repository
-Section: unknown
+Source: golang-github-youmark-pkcs8
+Maintainer: Debian Go Packaging Team <team+pkg-go@tracker.debian.org>
+Uploaders: Drew Parsons <dparsons@debian.org>
+Section: devel
+Testsuite: autopkgtest-pkg-go
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Build-Depends: debhelper-compat (= 12),
+               dh-golang
+Build-Depends-Indep: golang-any,
+                     golang-golang-x-crypto-dev
+Standards-Version: 4.5.0
+Vcs-Browser: https://salsa.debian.org/go-team/packages/golang-github-youmark-pkcs8
+Vcs-Git: https://salsa.debian.org/go-team/packages/golang-github-youmark-pkcs8.git
+Homepage: https://github.com/youmark/pkcs8
+Rules-Requires-Root: no
+XS-Go-Import-Path: github.com/youmark/pkcs8
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: golang-github-youmark-pkcs8-dev
+Architecture: all
+Depends: golang-golang-x-crypto-dev,
+         ${misc:Depends}
+Multi-Arch: foreign
+Description: Go package to parse and convert private keys in PKCS#8 format (library)
+ pkcs8 OpenSSL can generate private keys in both "traditional format"
+ and PKCS#8 format. Newer applications are advised to use more
+ secure PKCS#8 format. Go standard crypto package provides a function
+ (http://golang.org/pkg/crypto/x509/#ParsePKCS8PrivateKey) to parse
+ private key in PKCS#8 format. There is a limitation to this function. It
+ can only handle unencrypted PKCS#8 private keys. To use this function,
+ the user has to save the private key in file without encryption, which
+ is a bad practice to leave private keys unprotected on file systems. In
+ addition, Go standard package lacks the functions to convert RSA/ECDSA
+ private keys into PKCS#8 format.
+ .
+ pkcs8 package fills the gap here. It implements functions
+ to process private keys in PKCS#8 format, as defined in
+ RFC5208 (https://tools.ietf.org/html/rfc5208) and RFC5958
+ (https://tools.ietf.org/html/rfc5958). It can handle both unencrypted
+ PKCS#8 PrivateKeyInfo format and EncryptedPrivateKeyInfo format with
+ PKCS#5 (v2.0) algorithms.
